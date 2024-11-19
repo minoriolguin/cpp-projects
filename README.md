@@ -1,2 +1,2 @@
-COMP 306 - C++ for programmers
+C++ for programmers
 course work
