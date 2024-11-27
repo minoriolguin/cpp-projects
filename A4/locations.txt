@@ -1,0 +1,14 @@
+# locations.txt
+# Format: location_name|description|exits (comma-separated)|conditions (optional)
+Above Rabbit Hole|A tree towers over you and at the base of the tree, you stand over a small conspicuous rabbit hole.|down="Room full of Doors"|
+Riverbank|A serene riverbank with gentle flowing water and lush greenery. You can hear birds chirping and the distant rustling of leaves.|south="Field of Daises",east="Above Rabbit Hole"|
+Field of Daisies|A vibrant field filled with white and yellow daisies swaying gently in the breeze. The air is filled with the scent of flowers. You think to yourself, how lovely it would be to make a daisy bouquet.|north="Riverbank",northeast="Above Rabbit Hole"|
+Rabbit Hole|You fall down, into the rabbit hole, father and farther down, wondering when the fall will stop... ... ...|southeast="Field of Daises",east="Riverbank"|
+Room Full of Doors|A small strange room with many doors.|enter_door_1="Return to Above Ground", enter_door_2="Dark Grassy Path", enter_door_3="Path to March Hare's House"|unlocked
+Path to March Hares House|A winding dirt path with trees arching overhead, casting shadows. Strange mushrooms grow along the edges of the path.|southeast="House of the March Hare"|
+House of the March Hare|a large house with two chimneys shaped like ears and the roof was thatched with fur, outside the front of the house there was a table set out under a tree.|northeast="Path to March Hare's House",south="Tea Party Outside March Hare's House"|
+Tea Party Outside March Hare's House|A long table set for tea, with mismatched chairs and cups everywhere.|north="March Hare's House"|
+Dark Grassy Path|A narrow path shrouded in shadows, surrounded by tall grass that sways as though alive. The wind howls faintly in the distance.|south="The Queen's Croquet Grounds"|
+The Queen’s Croquet-Ground|A manicured lawn with hedges shaped like playing cards. Flamingos and hedgehogs are scattered about, seemingly preparing for a game of croquet.|north="Dark Grassy Path",west="Secret Room"|
+Secret Room|A small, dimly lit room hidden behind a false wall. It smells of dust and mystery. A single chest sits in the corner, waiting to be opened.|down="Return to Above Ground",east="The Queen's Croquet Grounds"|following Gryphon
+Return to Above Ground|A small tunnel leading upwards. The faint light of the surface glimmers at the end of the passage.|up="Riverbank"

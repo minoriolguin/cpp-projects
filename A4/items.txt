@@ -1,0 +1,14 @@
+# Format: item_name|description|actions (comma-separated)
+pocket-watch|A golden pocket watch ticking loudly.|inspect
+hat|A tall, colorful hat.|take, inspect
+mushroom|A strange mushroom with two distinct sides.|take, eat, inspect
+key|A small brass key, slightly tarnished.|take, inspect
+teacup|A delicate porcelain teacup with a crack.|take, drink, inspect
+flamingo|A curious pink flamingo, used as a croquet mallet.|take, inspect
+hedgehog|A prickly hedgehog curled into a ball.|take, inspect
+cake|A small cake with "Eat Me" written in icing.|take, eat, inspect
+bottle|A glass bottle with a label that reads "Drink Me."|take, drink, inspect
+tarts|A tray of freshly baked tarts.|take, eat, inspect
+rose|A beautifully painted red rose.|take, inspect
+umbrella|A frilly umbrella, perfect for shade.|take, inspect
+book|An old, leather-bound book with faded lettering.|take, inspect
