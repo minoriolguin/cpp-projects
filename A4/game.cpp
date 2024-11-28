@@ -49,6 +49,7 @@ Discussion:
 #include "Location.h"
 #include "Character.h"
 #include "Item.h"
+#include "Action.h"
 using namespace std;
 
 class Game
@@ -56,9 +57,11 @@ class Game
 private:
     bool is_running;
     bool location_changed;
+    string starting_location = "Riverbank";
     map<string, Location> locations;
     map<string, Character> characters;
     Control control;
+    Action *action;
     Location *current_location;
 
     // files to load characters, items, actions and locations
@@ -81,15 +84,7 @@ public:
         initializeActions();
         initializeLocations();
 
-        if (locations.find("Riverbank") != locations.end())
-        {
-            setCurrentLocation(&locations["Riverbank"]);
-        }
-        else
-        {
-            cerr << "Error: Starting location 'Riverbank' not found." << endl;
-            exit(EXIT_FAILURE);
-        }
+        action = new Action(&locations, starting_location);
     }
 
     void initializeCharacters()
@@ -104,6 +99,11 @@ public:
         string line;
         while (getline(file, line))
         {
+            if (line.empty() || line[0] == '#')
+            {
+                continue;
+            }
+
             stringstream ss(line);
             string name, description, dialogues, actions, item;
             getline(ss, name, '|');
@@ -143,8 +143,14 @@ public:
         string line;
         while (getline(file, line))
         {
+            if (line.empty() || line[0] == '#')
+            {
+                continue;
+            }
+
             stringstream ss(line);
             string name, description, actions;
+
             getline(ss, name, '|');
             getline(ss, description, '|');
             getline(ss, actions, '|');
@@ -174,6 +180,11 @@ public:
         string line;
         while (getline(file, line))
         {
+            if (line.empty() || line[0] == '#')
+            {
+                continue;
+            }
+
             stringstream iss(line);
             string action_name, description, targets;
             getline(iss, action_name, '|');
@@ -204,14 +215,27 @@ public:
         string line;
         while (getline(file, line))
         {
+            if (line.empty() || line[0] == '#')
+            {
+                continue;
+            }
+
             stringstream ss(line);
             string name, description, exits, conditions;
+
             getline(ss, name, '|');
             getline(ss, description, '|');
             getline(ss, exits, '|');
             getline(ss, conditions, '|');
 
+            size_t pos;
+            while ((pos = description.find("\\n")) != string::npos)
+            {
+                description.replace(pos, 2, "\n");
+            }
+
             map<string, string> exitMap;
+            vector<string> directions;
             stringstream exitStream(exits);
             string exitToken;
 
@@ -223,6 +247,7 @@ public:
                     string direction = exitToken.substr(0, delim);
                     string destination = exitToken.substr(delim + 1);
                     exitMap[direction] = destination;
+                    directions.push_back(direction);
                 }
             }
 
@@ -253,44 +278,19 @@ public:
         string enter;
         cout
             << "******** Welcome to Alice's Adventures in Wonderland! ********\n"
-            << "This game expects input in 1-2 word combinations, you can enter\n"
-            << "north, or n for north, this also applies to, east, south and west.\n"
-            << "For northeast, you can enter northeast or ne. Capital and lowercase\n"
-            << "letters are read as the same thing. Additional commands include, inventory,\n"
-            << "take, drop, drink, eat, and talk to. To end the game at any point\n"
-            << "type 'exit', 'quit' or 'q'. If at any time you need help with which\n"
-            << "actions are available to you, enter 'help' for a list of actions.\n"
-            << "Once the game begins, you will receive a short description on where\n"
-            << "you are. Your goal is to reach the finish line, which is finding your\n"
-            << "way out of Wonderland after retrieving a golden key. The golden key is\n"
-            << "hidden in Wonderland. You can start the game by pressing enter to continue.\n"
-            << endl;
+            << "\nInstructions: This game expects input in 1-2 word combinations, you can enter "
+            << "north, or n for north, this also applies to, east, south and west. "
+            << "For northeast, you can enter northeast or ne. Capital and lowercase"
+            << "letters are read as the same thing. Additional commands include, inventory, "
+            << "take, drop, drink, eat, and talk to. To end the game at any point "
+            << "type 'exit', 'quit' or 'q'. Once the game begins, you will receive a short"
+            << "description on where you are.\n\nGoal: explore Wonderland as Alice to reach the finish line."
+            << " First enter Wonderland to meet character and find the golden key."
+            << "The golden key is hidden somewhere in Wonderland and you need it to get back to above "
+            << "ground and win the game. You can earn achievements as you play the "
+            << "game by interacting with characters in Wonderland.\n\nPress enter to start the game.\n";
         getline(cin, enter);
-    }
-
-    void processActions(vector<string> actionWords)
-    {
-    }
-
-    bool getLocationChanged() { return location_changed; }
-    Location *getCurrentLocation() { return current_location; }
-
-    void setCurrentLocation(Location *location)
-    {
-        if (current_location != location)
-        {
-            current_location = location;
-            setLocationChanged(true);
-        }
-        else
-        {
-            setLocationChanged(false);
-        }
-    }
-
-    void setLocationChanged(bool changed_location)
-    {
-        location_changed = changed_location;
+        cout << "\n******** Welcome to Alice's Adventures in Wonderland! ********\n" << endl;
     }
 
     void play()
@@ -300,43 +300,47 @@ public:
         setIsRunning(true);
         displayInstructions();
 
-        setLocationChanged(true);
+        action->getCurrentLocation()->displayDescription();
 
         // Game loop for state: playing
         do
         {
-            if (getLocationChanged())
-            {
-                current_location->displayCurrentLocationDescription();
-            }
-            // put location description if location changed
             string input;
             cout << "> ";
             getline(cin, input);
 
-            vector<string> actionWords = control.validateAndParseInput(input);
+            vector<string> action_words = control.validateAndParseInput(input);
 
-            if (actionWords.empty())
+            if (action_words.empty())
+            {
                 continue;
-            if (actionWords[0] == "invalid")
+            }
+            if (action_words[0] == "invalid")
             {
                 cout << "I don't understand that command." << endl;
                 continue;
             }
 
-            if (actionWords[0] == "exit" || actionWords[0] == "quit")
+            if (action_words[0] == "exit" || action_words[0] == "quit")
             {
-                endGame(actionWords[0]);
+                endGame(action_words[0]);
                 continue;
             }
 
-            processActions(actionWords);
-
+            if (control.isMovementCommand(action_words[0]))
+            {
+                action->movePlayer(action_words[0]);
+            }
+            else
+            {
+                action->doAction(action_words);
+            }
         } while (getIsRunning());
     }
 
     void endGame(string quit_word)
     {
+        // if the quit word is exit, then double check that the user wants to exit the game rather than an area within the game
         if (getIsRunning() && quit_word == "exit")
         {
             cout << "You are about to quit the game. Enter 'yes' or 'quit' to "

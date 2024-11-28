@@ -21,30 +21,32 @@ using namespace std;
 class Control
 {
 private:
-    vector<string> north = {"north", "n", "up"};
-    vector<string> south = {"south", "s", "down"};
-    vector<string> east = {"east", "e", "right"};
-    vector<string> west = {"west", "w", "left"};
-    vector<string> northwest = {"northwest", "nw"};
-    vector<string> northeast = {"northeast", "ne"};
-    vector<string> southeast = {"southeast", "se"};
-    vector<string> southwest = {"southwest", "sw"};
-    vector<string> movement_commands;
+    map<string, string> direction_map = {
+        {"north", "north"},
+        {"n", "north"},
+        {"up", "north"},
+        {"south", "south"},
+        {"s", "south"},
+        {"down", "south"},
+        {"east", "east"},
+        {"e", "east"},
+        {"right", "east"},
+        {"west", "west"},
+        {"w", "west"},
+        {"left", "west"},
+        {"northeast", "northeast"},
+        {"ne", "northeast"},
+        {"northwest", "northwest"},
+        {"nw", "northwest"},
+        {"southeast", "southeast"},
+        {"se", "southeast"},
+        {"southwest", "southwest"},
+        {"sw", "southwest"}};
+
+    vector<string> movement_commands = {"north", "south", "east", "west", "northeast", "northwest", "southeast", "southwest"};
     vector<string> action_commands;
     vector<string> exit_commands = {"exit", "quit", "q"};
     vector<string> confirm_commands = {"yes", "y"};
-
-    void createMovementVector()
-    {
-        movement_commands.insert(movement_commands.end(), north.begin(), north.end());
-        movement_commands.insert(movement_commands.end(), south.begin(), south.end());
-        movement_commands.insert(movement_commands.end(), east.begin(), east.end());
-        movement_commands.insert(movement_commands.end(), west.begin(), west.end());
-        movement_commands.insert(movement_commands.end(), northwest.begin(), northwest.end());
-        movement_commands.insert(movement_commands.end(), northeast.begin(), northeast.end());
-        movement_commands.insert(movement_commands.end(), southeast.begin(), southeast.end());
-        movement_commands.insert(movement_commands.end(), southwest.begin(), southwest.end());
-    }
 
     string trimWhitespace(string input)
     {
@@ -90,14 +92,20 @@ private:
     }
 
 public:
-    Control()
-    {
-        createMovementVector();
-    }
+    Control() {}
 
-    void setActionCommands(vector<string> commands) 
+    void setActionCommands(vector<string> commands)
     {
         action_commands = commands;
+    }
+
+    string normalizeDirection(const string &input)
+    {
+        if (direction_map.find(input) != direction_map.end())
+        {
+            return direction_map[input];
+        }
+        return "";
     }
 
     bool isExitCommand(const string &input)
@@ -136,7 +144,7 @@ public:
             {
                 return {"exit"};
             }
-            else 
+            else
             {
                 return {"quit"};
             }
@@ -144,12 +152,16 @@ public:
 
         for (string word : words)
         {
-            if (isMovementCommand(word) || isActionCommand(word))
+            if (isMovementCommand(normalizeDirection(word))) 
             {
+                return {normalizeDirection(word)};
+            }
+            else if(isActionCommand(word))
+            {
+                cout << "word: " << word << endl;
                 return words;
             }
         }
-
         return {"invalid"};
     }
 
