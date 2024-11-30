@@ -1,42 +1,11 @@
-//: Assignment4.cpp
+//: game.cpp
 
 /*
-Title: Assignment4.cpp
+Title: game.cpp
 Description:
 Date: November 10, 2024
 Author: Minori Olguin
 Student ID: 3441333
-*/
-
-/*
-DOCUMENTATION
-
-Program Purpose:
-
-Compile: g++ -o Assignment4 Assignment4.cpp
-Execution: ./Assignment4
-
-Notes: in Cygwin, main must return type int
-
-Classes:
-
-Variables:
-
-*/
-
-/*
-TEST PLAN
-
-Normal case:
-
-
-Bad Data case 1 ():
-    -
-
-Bad Data case 2 ():
-    -
-
-Discussion:
 */
 
 #include <iostream>
@@ -347,14 +316,14 @@ public:
         do
         {
             steps_to_complete++;
-            cout << "Current Step: " << steps_to_complete << endl;
+            cout << "\nCurrent Step: " << steps_to_complete  << "\n" << endl;
 
             string input;
             cout << "> ";
             getline(cin, input);
 
             vector<string> action_words = control.validateAndParseInput(input);
-
+            cout<<endl;
             if (action_words.empty())
             {
                 continue;

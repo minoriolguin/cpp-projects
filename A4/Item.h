@@ -32,5 +32,7 @@ public:
     string getDescription() const { return description; }
     vector<string> getActions() { return item_actions; }
     bool isItemAction(string action) { return find(item_actions.begin(), item_actions.end(), action) != item_actions.end(); }
+    bool isEdible() const { return find(item_actions.begin(), item_actions.end(), "eat") != item_actions.end(); }
+    bool isWearable() const { return find(item_actions.begin(), item_actions.end(), "wear") != item_actions.end(); }
 };
 #endif

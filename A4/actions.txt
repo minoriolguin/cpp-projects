@@ -1,3 +1,6 @@
+# Author: Minori Olguin
+# Student ID: 3441333
+# Title: actions.txt
 # Format: action_name|description|valid_targets (comma-separated)
 take|Pick up an item or object.|items
 pick|Pick flowers.|items
@@ -16,3 +19,6 @@ inventory|shows the player's inventory items.|items
 i|shows the player's inventory items.|items
 turn off|Turn on or off a light.|items
 turn on|Turn on or off a light.|items
+use|Use an item.|items
+help|Shows help menu.|none
+h|Shows help menu.|none

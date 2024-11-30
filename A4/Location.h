@@ -15,66 +15,65 @@ Student ID: 3441333
 #include <map>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "Character.h"
 #include "Item.h"
 using namespace std;
 
+/*****************************************************************************
+ * Location 
+*****************************************************************************/
 class Location
 {
 private:
-    string name;
-    string description;
-    map<string, string> exits;
-    map<string, string> conditions;
-    vector<string> items_in_location;
-    vector<string> characters_in_location;
+    // Private variables 
+    string name, description;
+    map<string, string> exits, conditions;
+    vector<string> items_in_location, characters_in_location;
 
 public:
+    // Default constructor
     Location() : name(""), description("") {}
 
+    // Constructor 
     Location(const string &name, const string &description,
              const map<string, string> &exits = {},
              const map<string, string> &conditions = {})
         : name(name), description(description), exits(exits), conditions(conditions) {}
 
-    void displayDescription() const
-    {
-        cout << description << endl;
-    }
+    // Displays the location description
+    void displayDescription() { cout << description << endl; }
+    // Getters: single liners that simply return a value
+    const string &getName() const { return name; }
+    const map<string, string> &getConditions() const { return conditions; }
+    const map<string, string> &getExitList() const { return exits; }
+    const vector<string> &getCharacters() const { return characters_in_location; }
+    const vector<string> &getItems() const { return items_in_location; }
 
-    vector<string> getValidDirections() const
+    // Getters that iterate through a vector or map
+    vector<string> getValidDirections() 
     {
         vector<string> directions;
-        for (const auto &exit : exits)
+        for (auto &exit : exits)
         {
             directions.push_back(exit.first);
         }
         return directions;
     }
 
-    string getName()
+    const string &getItem(const string &item_name) const
     {
-        return name;
-    }
-
-    map<string, string> getConditions() { return conditions; }
-    map<string, string> getExitList() { return exits; }
-    const vector<string> getCharacters() { return characters_in_location; }
-    const vector<string> getItems() { return items_in_location; }
-
-    string getItem(const string &item_name)
-    {
-        for (string item : items_in_location)
+        for (const string &item : items_in_location)
         {
             if (item == item_name)
             {
-                return item_name;
+                return item;
             }
         }
         throw invalid_argument("Item '" + item_name + "' not found in this location.");
     }
 
-    string getExit(const string &direction)
+    const string &getExit(const string &direction) const
     {
         if (hasExit(direction))
         {
@@ -86,6 +85,7 @@ public:
         }
     }
 
+    // Functions that check if a string is valid within a map or vector and then return boolean value
     bool hasItem(const string &item_name) const
     {
         return find(items_in_location.begin(), items_in_location.end(), item_name) != items_in_location.end();
@@ -96,24 +96,26 @@ public:
         return find(characters_in_location.begin(), characters_in_location.end(), character_name) != characters_in_location.end();
     }
 
-    bool hasExit(const string &direction)
+    bool hasExit(const string &direction) const
     {
         return exits.find(direction) != exits.end();
     }
 
+    // Adds character and item to their vectors
     void addCharacter(const string &character_name)
     {
         characters_in_location.push_back(character_name);
     }
 
-    void removeCharacter(const string &character_name)
-    {
-        characters_in_location.erase(remove(characters_in_location.begin(), characters_in_location.end(), character_name), characters_in_location.end());
-    }
-
     void addItem(const string &item_name)
     {
         items_in_location.push_back(item_name);
+    }
+
+    // removes character or item from their vector
+    void removeCharacter(const string &character_name)
+    {
+        characters_in_location.erase(remove(characters_in_location.begin(), characters_in_location.end(), character_name), characters_in_location.end());
     }
 
     void removeItem(const string &item_name)

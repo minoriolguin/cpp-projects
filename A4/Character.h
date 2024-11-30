@@ -11,16 +11,17 @@ Student ID: 3441333
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <vector>
+#include <vector> // Stream declarations
 #include "Item.h"
-using namespace std; // Stream declarations
+using namespace std;
 
 class Character
 {
 private:
+    // Private variables
     string name;
     string description;
-    vector<string> dialogues; // Lines the character can say
+    vector<string> dialogues;
     vector<string> actions;
     Item character_item;
     string special_message = "\"I have a gold key I betcha you'd like to take it.\"";
