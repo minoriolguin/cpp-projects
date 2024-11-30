@@ -11,9 +11,9 @@ lamp|A lamp with a large shade, dust covers the switch.|inspect,turn on,turn off
 
 mushroom|A strange mushroom with red and blue spots.|take,drop,eat,inspect
 
-hat|A tall, colourful hat.|take,drop,inspect,use
+hat|A tall, colourful hat.|take,drop,inspect,wear
 
-teacup|A delicate porcelain teacup with tea.|take,drop,drink,inspect
+teacup|A delicate porcelain teacup with tea.|take,drop,inspect
 
 flamingo|A curious pink flamingo, used as a croquet mallet.|take,drop,inspect,use|
 

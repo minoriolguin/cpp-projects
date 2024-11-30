@@ -58,7 +58,9 @@ class Game
 private:
     bool is_running;
     bool location_changed;
+    string win_message = "Congratulations on successfully completing Alice's Adventures in Wonderland!";
     string starting_location = "Riverbank";
+    int steps_to_complete;
     map<string, Location> locations;
     map<string, Character> characters;
     map<string, Item> items;
@@ -74,7 +76,7 @@ private:
     string locations_file = "locations.txt";
 
 public:
-    Game() : is_running(false), control() {}
+    Game() : is_running(false), control(), steps_to_complete(0) {}
     ~Game() {}
 
     bool getIsRunning() { return is_running; }
@@ -344,6 +346,9 @@ public:
         // Game loop for state: playing
         do
         {
+            steps_to_complete++;
+            cout << "Current Step: " << steps_to_complete << endl;
+
             string input;
             cout << "> ";
             getline(cin, input);
@@ -378,12 +383,19 @@ public:
             {
                 action->doAction(action_words);
             }
+            if (action->getWin()) 
+            {
+                cout << win_message << endl;
+                cout << "You completed the game in " << steps_to_complete << " steps." << endl;
+                endGame("quit");
+            }
         } while (getIsRunning());
     }
 
     void endGame(string quit_word)
     {
         // if the quit word is exit or q, then double check that the user wants to exit the game rather than an area within the game
+        // easy to accidentally press q when going for w and also maybe confusing to have exit when there's exits in the game
         if (getIsRunning() && quit_word == "exit")
         {
             cout << "You are about to quit the game. Enter 'yes', 'q', 'y' or 'quit' to "

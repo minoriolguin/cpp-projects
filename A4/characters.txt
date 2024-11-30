@@ -13,4 +13,4 @@ Queen of Hearts|a short tempered queen appears, she looks directly at you.|"Off 
 
 March Hare|a nervous har drinking tea.|"Take some more tea.","It wasn’t very civil of you to sit down without being invited","I deny it!"|talk to|
 
-Gryphon|a dismissive being, with an impatient tone.|"You ought to be ashamed of yourself for asking such a simple question","Hold your tongue!","No no! The adventures first explanations take such a dreadful time.","I have a gold key I betcha you'd like to take it."|follow, talk to|gold key
+Gryphon|a dismissive being, with an impatient tone.|"You ought to be ashamed of yourself for asking such a simple question","Hold your tongue! You can follow me if you'd like.","No no! The adventures first explanations take such a dreadful time.","I have a gold key I betcha you'd like to take it."|follow,talk to|gold key

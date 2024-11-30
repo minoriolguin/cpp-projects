@@ -29,13 +29,14 @@ private:
     map<string, Character> *all_characters;
     map<string, Item> *all_items;
     vector<string> valid_directions;
+    vector<string> valid_yes = {"Yes", "YES", "y", "Y", "Yes ", "YES ", "y ", "Y ", "yes", "yes "};
     int counter = 0;
+    bool win = false;
     bool lampIsOn;
     bool location_changed;
-    bool door_1_unlocked;
-    bool door_2_unlocked;
-    bool door_3_unlocked;
-    bool received_special_message;
+    bool door_1_locked = true;
+    bool door_2_locked = true;
+    bool received_special_message = false;
     map<string, string> door_map = {
         {"door 1", "door_1"},
         {"door 2", "door_2"},
@@ -59,6 +60,18 @@ public:
 
     Location *getCurrentLocation() { return current_location; }
     bool getLocationChanged() { return location_changed; }
+    bool getLampOn() { return lampIsOn; }
+    bool getWin() { return win; }
+    void playerWins() { win = true; }
+
+    void setDoor1Lock(bool is_locked)
+    {
+    }
+
+    void setDoor2Lock(bool is_locked)
+    {
+        door_2_locked = is_locked;
+    }
 
     void setLocationChanged(bool location_changed)
     {
@@ -95,6 +108,18 @@ public:
                 return;
             }
 
+            if (current_location->getName() == "Return to Above Ground" && next_location_name == "Riverbank")
+            {
+                if (playerInventory.hasItem("gold key"))
+                {
+                    playerWins();
+                    cout << "You crawl up through the small tunnel and breathe the fresh air, "
+                         << "feel the warm sunlight and jump for joy! You find yourself back on "
+                         << "the riverbank. That wasn't just a dream, was it?\n"
+                         << endl;
+                }
+            }
+
             if (all_locations->find(next_location_name) != all_locations->end())
             {
                 current_location = &(*all_locations)[next_location_name];
@@ -110,6 +135,40 @@ public:
         else
         {
             cout << "You can't go that way." << endl;
+        }
+    }
+
+    bool isDoorLocked(string door)
+    {
+        if (door == "door_1")
+        {
+            if (door_1_locked)
+            {
+                cout << "Door 1 is locked, maybe a key would help..." << endl;
+            }
+            else
+            {
+                cout << "You made it through the door... " << endl;
+            }
+            return door_1_locked;
+        }
+        else if (door == "door_2")
+        {
+            if (door_2_locked)
+            {
+                cout << "Door 2 is locked, who knows what could shed a little light on the problem..." << endl;
+            }
+            else
+            {
+                cout << "You made it through the door... " << endl;
+            }
+            return door_2_locked;
+        }
+        else
+        {
+            cout << "You made it through the door... " << endl;
+
+            return false;
         }
     }
 
@@ -139,24 +198,9 @@ public:
         if (door_map.find(target_door) != door_map.end())
         {
             string exit_key = door_map.at(target_door);
-
-            if (current_location->hasExit(exit_key))
+            if (!isDoorLocked(exit_key))
             {
-                string next_location_name = current_location->getExit(exit_key);
-
-                if (all_locations->find(next_location_name) != all_locations->end())
-                {
-                    current_location = &(*all_locations)[next_location_name];
-                    current_location->displayDescription();
-                }
-                else
-                {
-                    cout << "The destination '" << next_location_name << "' does not exist.\n";
-                }
-            }
-            else
-            {
-                cout << "There is no exit for '" << target_door << "' in this location.\n";
+                movePlayer(exit_key);
             }
         }
         else
@@ -221,6 +265,7 @@ public:
     void toggleLight()
     {
         lampIsOn = !lampIsOn;
+        setDoor2Lock(!lampIsOn);
     }
 
     Character findCharacterByName(string character_name)
@@ -241,6 +286,11 @@ public:
         return all_characters->find(character_name) != all_characters->end();
     }
 
+    bool isYes(string input)
+    {
+        return find(valid_yes.begin(), valid_yes.end(), input) != valid_yes.end();
+    }
+
     void talkToCharacter(string character_name)
     {
         if (isCharacter(character_name))
@@ -259,12 +309,48 @@ public:
                 }
                 if (received_special_message)
                 {
-                    
+                    string input;
+                    cout << "The Gryphon is offering you the Golden Key, would you like to accept?" << endl;
+                    getline(cin, input);
+                    if (isYes(input))
+                    {
+                        takeItem(findItemByName("gold key"));
+                        character.removeCharacterItem();
+                    }
+                    else
+                    {
+                        cout << "Never mind, move along!" << endl;
+                    }
                 }
             }
             else
             {
                 cout << "The " << character_name << " is not in the " << current_location->getName() << "." << endl;
+            }
+        }
+        else
+        {
+            cout << "That character does not exist. :(" << endl;
+        }
+    }
+
+    void followCharacter(string direction, string character_name)
+    {
+        if (isCharacter(character_name))
+        {
+            Character character = findCharacterByName(character_name);
+            if (current_location->hasCharacter(character_name) && character.hasAction(direction))
+            {
+                cout << "You started following " << character_name << "... This seems to be a short-cut... " << endl;
+                movePlayer(direction);
+            }
+            else if (!current_location->hasCharacter(character_name))
+            {
+                cout << "The " << character_name << " is not in the " << current_location->getName() << "." << endl;
+            }
+            else
+            {
+                cout << "You can't follow the " << character_name << "." << endl;
             }
         }
         else
@@ -314,6 +400,10 @@ public:
         else if (action_words[0] == "inventory" || action_words[0] == "i")
         {
             playerInventory.displayInventory();
+        }
+        else if (action_words[0] == "follow")
+        {
+            followCharacter(action_words[0], action_words[1]);
         }
         else if (action_words.size() == 1)
         {

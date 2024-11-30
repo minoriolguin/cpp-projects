@@ -73,6 +73,11 @@ public:
         character_item = item;
     }
 
+    bool hasAction(string action)
+    {
+        return find(actions.begin(), actions.end(), action) != actions.end();
+    }
+
     bool hasItem(string item_name)
     {
         return character_item.getName() == item_name;

@@ -206,11 +206,11 @@ public:
                 }
                 else if (word == "turn")
                 {
-                    if (words[1] == "on")
+                    if (words[1] == "on" || words[2] == "on")
                     {
                         return {"turn on", "lamp"};
                     }
-                    else if (words[1] == "off")
+                    else if (words[1] == "off" || words[2] == "off")
                     {
                         return {"turn off", "lamp"};
                     }
@@ -226,8 +226,20 @@ public:
                         }
                         input += words[i];
                     }
-
                     return {"talk to", normalizeCharacterName(input)};
+                }
+                else if (word == "follow")
+                {
+                    string input;
+                    for (int i = 1; i < words.size(); i++)
+                    {
+                        if (!input.empty())
+                        {
+                            input += " ";
+                        }
+                        input += words[i];
+                    }
+                    return {"follow", normalizeCharacterName(input)};
                 }
                 else
                 {

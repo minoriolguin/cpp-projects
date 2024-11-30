@@ -21,6 +21,6 @@ Dark Grassy Path|You find yourself standing at the start of a long narrow path s
 
 The Queen’s Croquet-Grounds|A manicured lawn with hedges shaped like playing cards. Flamingos and hedgehogs are scattered about, seemingly preparing for a game of croquet.|north=Dark Grassy Path,west=Maze Side Room|unlocked|Queen of Hearts|flamingo,hedgehog
 
-Maze Side Room|You find yourself in a small, dimly lit room. It smells of dust and mystery. A you see a strange bird sitting in the corner. Is that a bird? you think to yourself, hmmm, it might not be upon second look, that must be the Gryphon.|follow=Return to Above Ground,east=The Queen’s Croquet-Grounds|following gryphon|Gryphon
+Maze Side Room|You find yourself in a small, dimly lit room. It smells of dust and mystery. A you see a strange bird sitting in the corner. Is that a bird? you think to yourself, hmmm, it might not be upon second look, that must be the Gryphon.|follow=Return to Above Ground,east=The Queen’s Croquet-Grounds||Gryphon|gold key
 
-Return to Above Ground|You find yourself in a small room, there doesn’t seem to be much in here. After looking around you find a small tunnel leading upwards. The faint light of the surface glimmers at the end of the passage.|up=Riverbank,door=Room Full of Doors|unlocked
+Return to Above Ground|You find yourself in a small room, there doesn’t seem to be much in here. After looking around you find a small tunnel leading upwards. The faint light of the surface glimmers at the end of the passage.|north=Riverbank,door=Room Full of Doors||
