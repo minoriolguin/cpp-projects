@@ -33,5 +33,4 @@ public:
     vector<string> getActions() { return item_actions; }
     bool isItemAction(string action) { return find(item_actions.begin(), item_actions.end(), action) != item_actions.end(); }
 };
-
 #endif

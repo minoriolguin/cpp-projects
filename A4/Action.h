@@ -23,7 +23,7 @@ using namespace std;
 class Action
 {
 private:
-    bool door_unlocked;
+    bool lampIsOn;
     Inventory playerInventory;
     Location *current_location;
     map<string, Location> *all_locations;
@@ -31,6 +31,9 @@ private:
     map<string, Item> *all_items;
     vector<string> valid_directions;
     bool location_changed;
+    bool door_1_unlocked;
+    bool door_2_unlocked;
+    bool door_3_unlocked;
     map<string, string> door_map = {
         {"door 1", "door_1"},
         {"door 2", "door_2"},
@@ -39,7 +42,7 @@ private:
 
 public:
     Action(map<string, Location> *locations, const string &start_location_name, map<string, Character> *characters, map<string, Item> *items, Inventory &inventory)
-        : all_locations(locations), all_characters(characters), all_items(items), playerInventory(inventory)
+        : lampIsOn(false), all_locations(locations), all_characters(characters), all_items(items), playerInventory(inventory)
     {
         if (all_locations->find(start_location_name) != all_locations->end())
         {
@@ -185,9 +188,9 @@ public:
         {
             current_location->removeItem(item.getName());
             bool item_taken = playerInventory.addItem(item);
-            if (item_taken) 
-            { 
-                cout << "You have taken the " << item.getName() << ".\n"; 
+            if (item_taken)
+            {
+                cout << "You have taken the " << item.getName() << ".\n";
             }
         }
         else
@@ -196,7 +199,7 @@ public:
         }
     }
 
-    void dropItem(string item_name) 
+    void dropItem(string item_name)
     {
         if (playerInventory.hasItem(item_name))
         {
@@ -207,6 +210,11 @@ public:
         {
             cout << "Unable to find " << item_name << " in your inventory." << endl;
         }
+    }
+
+    void toggleLight()
+    {
+        lampIsOn = !lampIsOn;
     }
 
     void doAction(vector<string> action_words)
@@ -223,7 +231,7 @@ public:
                 takeItem(item);
             }
         }
-        else if (action_words[0] == "drop") 
+        else if (action_words[0] == "drop")
         {
             dropItem(action_words[1]);
         }
@@ -231,13 +239,18 @@ public:
         {
             playerInventory.displayInventory();
         }
+        else if (action_words[0] == "toggle")
+        {
+            toggleLight();
+            cout << "The lamp " << (lampIsOn ? " is now ON." : " is now OFF.") << endl;
+        }
         else if (action_words.size() == 1)
         {
             cout << "You need to enter an item after " << action_words[0] << " to " << action_words[0] << " it." << endl;
         }
-        else if (!current_location->hasItem(action_words[1])) 
+        else if (!current_location->hasItem(action_words[1]) && action_words.size() == 2)
         {
-            cout << "There is no " << action_words[1] << " in " << current_location->getName() << " it." << endl;
+            cout << "There is no " << action_words[1] << " in " << current_location->getName() << "." << endl;
         }
         else
         {

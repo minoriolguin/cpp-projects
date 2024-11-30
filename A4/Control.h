@@ -155,7 +155,7 @@ public:
             {
                 return {normalizeDirection(word)};
             }
-            else if (isActionCommand(word))
+            else if (isActionCommand(word) || word == "turn")
             {
                 if (word == "enter")
                 {
@@ -164,6 +164,11 @@ public:
                 else if (word == "door")
                 {
                     words.insert(words.begin(), "enter");
+                    return words;
+                }
+                else if (word == "turn" || word == "toggle")
+                {
+                    words.front() = "toggle";
                     return words;
                 }
                 else
