@@ -113,10 +113,12 @@ public:
                 if (playerInventory.hasItem("gold key"))
                 {
                     playerWins();
-                    cout << "You crawl up through the small tunnel and breathe the fresh air, "
+                    cout << "\n\nYou rub your eyes, was it really that dark down there. "
+                         << "You crawl up through the small tunnel and breathe the fresh air, "
                          << "feel the warm sunlight and jump for joy! You find yourself back on "
                          << "the riverbank. That wasn't just a dream, was it?\n"
                          << endl;
+                    return;
                 }
             }
 

@@ -385,8 +385,8 @@ public:
             }
             if (action->getWin()) 
             {
-                cout << win_message << endl;
-                cout << "You completed the game in " << steps_to_complete << " steps." << endl;
+                cout << "Steps to Complete Game: " << steps_to_complete << endl;
+                cout << win_message << "\n" << endl;
                 endGame("quit");
             }
         } while (getIsRunning());
