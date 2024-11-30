@@ -1,4 +1,6 @@
-# characters.txt
+# Author: Minori Olguin
+# Student ID: 3441333
+# Title: characters.txt
 # Format: character_name|description|dialogues (comma-separated)|actions (comma-separated)| item
 
 Rabbit|a frantic white rabbit with pink eyes runs past, wearing a waistcoat and pocket watch.|“Oh dear! Oh dear! I shall be late!”,“Oh my ears and whiskers","How late it’s getting!”|talk to|

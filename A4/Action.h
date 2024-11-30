@@ -32,8 +32,7 @@ private:
     vector<string> valid_yes = {"Yes", "YES", "y", "Y", "Yes ", "YES ", "y ", "Y ", "yes", "yes "};
     int counter = 0;
     bool win = false;
-    bool lampIsOn;
-    bool location_changed;
+    bool lampIsOn, hatIsOn, location_changed;
     bool door_1_locked = true;
     bool door_2_locked = true;
     bool received_special_message = false;
@@ -66,6 +65,7 @@ public:
 
     void setDoor1Lock(bool is_locked)
     {
+        door_1_locked = is_locked;
     }
 
     void setDoor2Lock(bool is_locked)
@@ -93,6 +93,15 @@ public:
         }
     }
 
+    void displayHelp()
+    {
+        cout << "Help: try going in one of the following directions\n";
+        for (auto &exit : current_location->getExitList())
+        {
+            cout << "- " << exit.first << endl;
+        }
+    }
+
     void movePlayer(const string &direction)
     {
         if (current_location->hasExit(direction))
@@ -113,10 +122,12 @@ public:
                 if (playerInventory.hasItem("gold key"))
                 {
                     playerWins();
-                    cout << "You crawl up through the small tunnel and breathe the fresh air, "
+                    cout << "\n\nYou rub your eyes, was it really that dark down there. "
+                         << "You crawl up through the small tunnel and breathe the fresh air, "
                          << "feel the warm sunlight and jump for joy! You find yourself back on "
                          << "the riverbank. That wasn't just a dream, was it?\n"
                          << endl;
+                    return;
                 }
             }
 
@@ -253,12 +264,93 @@ public:
     {
         if (playerInventory.hasItem(item_name))
         {
-            playerInventory.removeItem(item_name);
+            playerInventory.removeItem(item_name, "drop");
             current_location->addItem(item_name);
         }
         else
         {
             cout << "Unable to find " << item_name << " in your inventory." << endl;
+        }
+    }
+
+    void eatItem(string item_name)
+    {
+        playerInventory.removeItem(item_name, "eat");
+    }
+
+    void useKey(string item_name)
+    {
+        if (playerInventory.hasItem(item_name))
+        {
+            if (current_location->getName() == "Room Full of Doors")
+            {
+                cout << "You use the gold key to unlock the door and put it back into your pocket." << endl;
+                setDoor1Lock(false);
+            }
+            else
+            {
+                cout << "You can't use the gold key here." << endl;
+            }
+        }
+        else
+        {
+            cout << "You don't have a gold key in your inventory." << endl;
+        }
+    }
+
+    void useFlamingo(string item_name)
+    {
+        if (playerInventory.hasItem(item_name) || current_location->hasItem(item_name))
+        {
+            if (current_location->hasItem("hedgehog"))
+            {
+                cout << "You use the flamingo to play croquet, using the hedgehogs as croquet balls." << endl;
+            }
+            else
+            {
+                cout << "You can't use the " << item_name << " with out a hedgehog ball." << endl;
+            }
+        }
+        else
+        {
+            cout << "You don't have a " << item_name << " in your inventory." << endl;
+        }
+    }
+
+    void wearHat(string item_name)
+    {
+        if (playerInventory.hasItem(item_name) && findItemByName(item_name).isWearable())
+        {
+            if (hatIsOn)
+            {
+                cout << "You are already wearing the hat." << endl;
+            }
+            else
+            {
+                playerInventory.removeItem(item_name, "drop");
+                cout << "You put on the hat." << endl;
+            }
+        }
+        else
+        {
+            cout << "You are not wearing a hat, silly." << endl;
+        }
+    }
+
+    void takeOffHat(string item_name)
+    {
+        if (hatIsOn && !playerInventory.isFull())
+        {
+            playerInventory.addItem(findItemByName(item_name));
+            cout << "You take off the hat and put it in your inventory." << endl;
+        }
+        else if (hatIsOn && playerInventory.isFull())
+        {
+            cout << "Your inventory is full, please remove an item to take off the hat and place it in your inventory." << endl;
+        }
+        else if (!hatIsOn)
+        {
+            cout << "You are not wearing a hat, silly." << endl;
         }
     }
 
@@ -389,6 +481,39 @@ public:
                 }
             }
         }
+        else if (action_words[0] == "use" || action_words[0] == "wear" || (action_words[0] == "take" && action_words[1] == "off"))
+        {
+            if (action_words[1] == "gold" && action_words[2] == "key")
+            {
+                useKey("gold key");
+            }
+            else if (action_words[1] == "hat" || action_words[2] == "hat")
+            {
+                if (hatIsOn)
+                {
+                    takeOffHat(action_words[1]);
+                }
+                else if (!hatIsOn)
+                {
+                    wearHat(action_words[1]);
+                }
+            }
+            else if (action_words[1] == "flamingo")
+            {
+                useFlamingo(action_words[1]);
+            }
+        }
+        else if (action_words[0] == "eat")
+        {
+            if (findItemByName(action_words[1]).isEdible())
+            {
+                eatItem(action_words[1]);
+            }
+            else
+            {
+                cout << "You can't eat " << action_words[1] << "!" << endl;
+            }
+        }
         else if (action_words[0] == "talk to")
         {
             talkToCharacter(action_words[1]);
@@ -400,6 +525,10 @@ public:
         else if (action_words[0] == "inventory" || action_words[0] == "i")
         {
             playerInventory.displayInventory();
+        }
+        else if (action_words[0] == "help" || action_words[0] == "h")
+        {
+            displayHelp();
         }
         else if (action_words[0] == "follow")
         {

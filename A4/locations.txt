@@ -1,4 +1,6 @@
-# locations.txt
+# Author: Minori Olguin
+# Student ID: 3441333
+# Title: locations.txt
 # Format: location_name|description|exits (comma-separated)|conditions (optional)|characters (optional, comma-separated)|items (optional, comma-separated)
 
 Above Rabbit Hole|You find yourself standing at the base of a tree that towers over you. You take a closer look at the base of the tree, and you see a small partially hidden rabbit hole. Whoosh! You see a White Rabbit quickly hop by... did the Rabbit just say something? You shout "Wait!", the Rabbit continues on its way down the rabbit hole.|south=Rabbit Hole,southwest=Field of Daisies,west=Riverbank|||
@@ -9,7 +11,7 @@ Field of Daisies|You are now standing in the middle of a vibrant field filled wi
 
 Rabbit Hole|You fall down, \ninto the rabbit hole, \n...\nfather \nand \nfarther \ndown, \nwondering \nwhen \nthe \nfall \nwill \nstop\n... \n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\nPlop! You gently land on your bottom, you stand up to see where you are.\n|down=Room Full of Doors|||
 
-Room Full of Doors|You find yourself within a small, strange room with many doors. You see 3 doors, the first door is unlabeled, the second door reads, 'Enter', the third door reads, 'Madness ahead'. Behind you, a side table appears out of the blue. On it, a small bottle labeled, "unknown" sits on the top, to it's left lays a cake. Beside door 2 there appears to be a lamp.\nHint: type 'enter door ' followed by the door number to enter a door.|door_1=Return to Above Ground,door_2=Dark Grassy Path,door_3=Path to March Hare's House|unlocked||bottle,cake,lamp
+Room Full of Doors|You find yourself within a small, strange room with many doors. You see 3 doors, the first door is unlabeled, the second door reads, 'Enter', the third door reads, 'Madness ahead'. Behind you, a side table appears out of the blue. On it, a small bottle labeled, "unknown" sits on the top, to its left lies a cake. Beside door 2 there appears to be a lamp.\n\nHint: type 'enter door ' followed by the door number to enter a door.|door_1=Return to Above Ground,door_2=Dark Grassy Path,door_3=Path to March Hare's House|unlocked||bottle,cake,lamp
 
 Path to March Hare's House|You find yourself on a winding dirt path with trees arching overhead. Strange mushrooms grow along the edges of the path. Farther down the path to the southeast, you see a shadow, could that be some sort of building?, you wonder...|southeast=House of the March Hare,door=Room Full of Doors|||mushroom
 
@@ -17,10 +19,10 @@ House of the March Hare|You are standing in front of a large house with two chim
 
 Tea Party Outside March Hare's House|You go and sit at long table set for tea, a teacup full of tea lies in front of you with a small tart on a flower shaped plate. How unusual you think, there are 3 people...? Squished together sitting at the other end, sitting on mismatched chairs and drinking from different sized cups. The March Hare looks in your direction, while the Hatter completely ignores your arrival, wait... could that be the Rabbit you saw earlier?|north=House of the March Hare||March Hare,Hatter,Rabbit|teacup,tart
 
-Dark Grassy Path|You find yourself standing at the start of a long narrow path shrouded in shadows, surrounded by tall grass that sways as though alive. The wind howls faintly in the distance.|south=The Queen’s Croquet-Grounds,door=Room Full of Doors|||
+Dark Grassy Path|You find yourself standing at the start of a long narrow path shrouded in shadows, surrounded by tall grass that sways as though alive. The wind howls faintly in the distance. To your south a green lawn, with manicured hedges surrounding. Are those red polka dots? Through the door lies the room full of doors you came through earlier.|south=The Queen’s Croquet-Grounds,door=Room Full of Doors|||
 
-The Queen’s Croquet-Grounds|A manicured lawn with hedges shaped like playing cards. Flamingos and hedgehogs are scattered about, seemingly preparing for a game of croquet.|north=Dark Grassy Path,west=Maze Side Room|unlocked|Queen of Hearts|flamingo,hedgehog
+The Queen’s Croquet-Grounds|You slowly step onto a manicured lawn with hedges shaped like playing cards. Flamingos and hedgehogs are scattered about, seemingly preparing for a game of croquet. You see a Queen of some sort, dressed in Red and White with hearts decorating her loud dress. To your north lies the dark grassy passage, to your west a maze with a small room tucked between the bushes.|north=Dark Grassy Path,west=Maze Side Room||Queen of Hearts|flamingo,hedgehog
 
-Maze Side Room|You find yourself in a small, dimly lit room. It smells of dust and mystery. A you see a strange bird sitting in the corner. Is that a bird? you think to yourself, hmmm, it might not be upon second look, that must be the Gryphon.|follow=Return to Above Ground,east=The Queen’s Croquet-Grounds||Gryphon|gold key
+Maze Side Room|You crouch down to crawl through an opening in the bushes and you find yourself in a small, dimly lit room. It smells of dust and mystery. A you see a strange bird sitting in the corner. Is that a bird? you think to yourself, hmmm, it might not be upon second look, that must be the Gryphon.|follow=Return to Above Ground,east=The Queen’s Croquet-Grounds||Gryphon|gold key
 
 Return to Above Ground|You find yourself in a small room, there doesn’t seem to be much in here. After looking around you find a small tunnel leading upwards. The faint light of the surface glimmers at the end of the passage.|north=Riverbank,door=Room Full of Doors||
