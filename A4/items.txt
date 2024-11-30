@@ -7,13 +7,13 @@ daisies|A beautiful bouquet of daises.|pick,drop,inspect,take|
 
 bottle|A small bottle with a thick blue liquid labeled "unknown".|take,drop,drink,inspect
 
-lamp|A lamp with a large shade, dust covers the switch.|use,inspect,turn on,turn off
+lamp|A lamp with a large shade, dust covers the switch.|inspect,turn on,turn off
 
 mushroom|A strange mushroom with red and blue spots.|take,drop,eat,inspect
 
 hat|A tall, colourful hat.|take,drop,inspect,use
 
-teacup|A delicate porcelain teacup with tea.|drink,inspect
+teacup|A delicate porcelain teacup with tea.|take,drop,drink,inspect
 
 flamingo|A curious pink flamingo, used as a croquet mallet.|take,drop,inspect,use|
 

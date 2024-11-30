@@ -23,6 +23,7 @@ private:
     vector<string> dialogues; // Lines the character can say
     vector<string> actions;
     Item character_item;
+    string special_message = "\"I have a gold key I betcha you'd like to take it.\"";
 
 public:
     Character() : name(""), description("") {}
@@ -32,42 +33,57 @@ public:
               const vector<string> &actions)
         : name(name), description(description), dialogues(dialogues), actions(actions) {}
 
-    string getName() const { return name; }
-    string getDescription() const { return description; }
-    const vector<string> &getDialogues() const { return dialogues; }
-    const vector<string> &getActions() const { return actions; }
-    const Item &getCharacterItem() const { return character_item; }
+    string getName() { return name; }
+    string getDescription() { return description; }
+    vector<string> getDialogues() { return dialogues; }
+    vector<string> getActions() { return actions; }
+    Item getCharacterItem() { return character_item; }
+    bool isGryphon() { return getName() == "Gryphon"; }
 
-    // Add an item to the character's inventory
-    void addItem(const Item item)
+    bool talkToPlayer(int counter)
+    {
+        if (counter < dialogues.size())
+        {
+            cout << dialogues[counter] << ", says the " << getName() << "." << endl;
+            if (dialogues[counter] == special_message)
+            {
+                return true;
+            }
+        }
+        else 
+        {
+            counter = dialogues.size() - 1;
+            cout << dialogues[counter] << ", says the " << getName() << "." << endl;
+        }
+        return false;
+    }
+
+    void addItem(Item item)
     {
         character_item = item;
     }
 
     void removeCharacterItem()
     {
-        character_item = Item(); // Resets to default constructed item
+        character_item = Item();
     }
 
-    void setCharacterItem(const Item &item)
+    void setCharacterItem(Item item)
     {
         character_item = item;
     }
 
-    // Check if the character has a specific item by name
-    bool hasItem(const string &item_name) const
+    bool hasItem(string item_name)
     {
         return character_item.getName() == item_name;
     }
 
-    // Add a dialogue
-    void addDialogue(const string &dialogue)
+    void addDialogue(string dialogue)
     {
         dialogues.push_back(dialogue);
     }
 
-    // Add an action
-    void addAction(const string &action)
+    void addAction(string action)
     {
         actions.push_back(action);
     }

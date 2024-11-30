@@ -23,17 +23,19 @@ using namespace std;
 class Action
 {
 private:
-    bool lampIsOn;
     Inventory playerInventory;
     Location *current_location;
     map<string, Location> *all_locations;
     map<string, Character> *all_characters;
     map<string, Item> *all_items;
     vector<string> valid_directions;
+    int counter = 0;
+    bool lampIsOn;
     bool location_changed;
     bool door_1_unlocked;
     bool door_2_unlocked;
     bool door_3_unlocked;
+    bool received_special_message;
     map<string, string> door_map = {
         {"door 1", "door_1"},
         {"door 2", "door_2"},
@@ -186,12 +188,16 @@ public:
     {
         if (current_location->hasItem(item.getName()))
         {
-            current_location->removeItem(item.getName());
             bool item_taken = playerInventory.addItem(item);
             if (item_taken)
             {
+                current_location->removeItem(item.getName());
                 cout << "You have taken the " << item.getName() << ".\n";
             }
+        }
+        else if (playerInventory.hasItem(item.getName()))
+        {
+            cout << "There is no more " << item.getName() << "s here.\n";
         }
         else
         {
@@ -217,9 +223,59 @@ public:
         lampIsOn = !lampIsOn;
     }
 
+    Character findCharacterByName(string character_name)
+    {
+        auto it = all_characters->find(character_name);
+        if (it != all_characters->end())
+        {
+            return it->second; // Return the item if found
+        }
+        else
+        {
+            throw runtime_error("Item not found: " + character_name); // Handle the error
+        }
+    }
+
+    bool isCharacter(string character_name)
+    {
+        return all_characters->find(character_name) != all_characters->end();
+    }
+
+    void talkToCharacter(string character_name)
+    {
+        if (isCharacter(character_name))
+        {
+            Character character = findCharacterByName(character_name);
+            if (current_location->hasCharacter(character_name))
+            {
+                received_special_message = character.talkToPlayer(counter);
+                if (counter > 2)
+                {
+                    counter = 0;
+                }
+                else
+                {
+                    counter++;
+                }
+                if (received_special_message)
+                {
+                    
+                }
+            }
+            else
+            {
+                cout << "The " << character_name << " is not in the " << current_location->getName() << "." << endl;
+            }
+        }
+        else
+        {
+            cout << "That character does not exist. :(" << endl;
+        }
+    }
+
     void doAction(vector<string> action_words)
     {
-        if (current_location->hasItem(action_words[1]) && action_words.size() > 1)
+        if ((current_location->hasItem(action_words[1])) && action_words.size() > 1)
         {
             Item item = findItemByName(action_words[1]);
             if ((action_words[0] == "read" || action_words[0] == "inspect"))
@@ -230,6 +286,26 @@ public:
             {
                 takeItem(item);
             }
+            else if ((action_words[0] == "turn on" || action_words[0] == "turn off") && current_location->hasItem("lamp"))
+            {
+                if (lampIsOn && action_words[0] == "turn on")
+                {
+                    cout << "The lamp is already on!" << endl;
+                }
+                else if (!lampIsOn && action_words[0] == "turn off")
+                {
+                    cout << "The lamp is already off!" << endl;
+                }
+                else
+                {
+                    toggleLight();
+                    cout << "The lamp " << (lampIsOn ? " is now ON." : " is now OFF.") << endl;
+                }
+            }
+        }
+        else if (action_words[0] == "talk to")
+        {
+            talkToCharacter(action_words[1]);
         }
         else if (action_words[0] == "drop")
         {
@@ -238,11 +314,6 @@ public:
         else if (action_words[0] == "inventory" || action_words[0] == "i")
         {
             playerInventory.displayInventory();
-        }
-        else if (action_words[0] == "toggle")
-        {
-            toggleLight();
-            cout << "The lamp " << (lampIsOn ? " is now ON." : " is now OFF.") << endl;
         }
         else if (action_words.size() == 1)
         {

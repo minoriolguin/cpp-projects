@@ -42,10 +42,34 @@ private:
         {"se", "southeast"},
         {"southwest", "southwest"},
         {"sw", "southwest"}};
+    map<string, string> character_map = {
+        {"the mad hatter", "Hatter"},
+        {"mad hatter", "Hatter"},
+        {"the hatter", "Hatter"},
+        {"hatter", "Hatter"},
+        {"the white rabbit", "Rabbit"},
+        {"white rabbit", "Rabbit"},
+        {"the rabbit", "Rabbit"},
+        {"rabbit", "Rabbit"},
+        {"march hare", "March Hare"},
+        {"the march hare", "March Hare"},
+        {"the hare", "March Hare"},
+        {"hare", "March Hare"},
+        {"gryphon", "Gryphon"},
+        {"the gryphon", "Gryphon"},
+        {"the bird", "Gryphon"},
+        {"bird", "Gryphon"},
+        {"queen of hearts", "Queen of Hearts"},
+        {"red queen", "Queen of Hearts"},
+        {"the red queen", "Queen of Hearts"},
+        {"queen", "Queen of Hearts"},
+        {"the queen", "Queen of Hearts"},
+        {"the queen of hearts", "Queen of Hearts"}};
     vector<string> movement_commands = {"north", "south", "east", "west", "northeast", "northwest", "southeast", "southwest"};
     vector<string> action_commands;
     vector<string> exit_commands = {"exit", "quit", "q"};
     vector<string> confirm_commands = {"yes", "y", "q", "quit"};
+    vector<string> partial_commands = {"turn", "talk"};
 
     string trimWhitespace(string input)
     {
@@ -107,6 +131,15 @@ public:
         return "";
     }
 
+    string normalizeCharacterName(const string &input)
+    {
+        if (character_map.find(input) != character_map.end())
+        {
+            return character_map[input];
+        }
+        return "";
+    }
+
     bool isExitCommand(const string &input)
     {
         return find(exit_commands.begin(), exit_commands.end(), input) != exit_commands.end();
@@ -120,6 +153,11 @@ public:
     bool isActionCommand(const string &input)
     {
         return find(action_commands.begin(), action_commands.end(), input) != action_commands.end();
+    }
+
+    bool isPartialCommand(const string &input)
+    {
+        return find(partial_commands.begin(), partial_commands.end(), input) != partial_commands.end();
     }
 
     bool isConfirmCommand(const string &input)
@@ -155,7 +193,7 @@ public:
             {
                 return {normalizeDirection(word)};
             }
-            else if (isActionCommand(word) || word == "turn")
+            else if (isActionCommand(word) || isPartialCommand(word))
             {
                 if (word == "enter")
                 {
@@ -166,10 +204,30 @@ public:
                     words.insert(words.begin(), "enter");
                     return words;
                 }
-                else if (word == "turn" || word == "toggle")
+                else if (word == "turn")
                 {
-                    words.front() = "toggle";
-                    return words;
+                    if (words[1] == "on")
+                    {
+                        return {"turn on", "lamp"};
+                    }
+                    else if (words[1] == "off")
+                    {
+                        return {"turn off", "lamp"};
+                    }
+                }
+                else if (word == "talk")
+                {
+                    string input;
+                    for (int i = 2; i < words.size(); i++)
+                    {
+                        if (!input.empty())
+                        {
+                            input += " ";
+                        }
+                        input += words[i];
+                    }
+
+                    return {"talk to", normalizeCharacterName(input)};
                 }
                 else
                 {
