@@ -50,6 +50,7 @@ Discussion:
 #include "Character.h"
 #include "Item.h"
 #include "Action.h"
+#include "Inventory.h"
 using namespace std;
 
 class Game
@@ -60,9 +61,11 @@ private:
     string starting_location = "Riverbank";
     map<string, Location> locations;
     map<string, Character> characters;
+    map<string, Item> items;
     Control control;
     Action *action;
     Location *current_location;
+    Inventory inventory;
 
     // files to load characters, items, actions and locations
     string characters_file = "characters.txt";
@@ -84,7 +87,7 @@ public:
         initializeActions();
         initializeLocations();
 
-        action = new Action(&locations, starting_location);
+        action = new Action(&locations, starting_location, &characters, &items, inventory);
     }
 
     void initializeCharacters()
@@ -125,8 +128,12 @@ public:
             while (getline(actionStream, token, ','))
                 actionList.push_back(token);
 
-            Character character(name, description, dialogueList, actionList, item);
+            Character character(name, description, dialogueList, actionList);
             characters[name] = character;
+            if (!item.empty())
+            {
+                character.addItem(items[item]);
+            }
         }
         file.close();
     }
@@ -163,6 +170,7 @@ public:
                 actionList.push_back(token);
 
             Item item(name, description, actionList);
+            items[name] = item;
         }
         file.close();
     }
@@ -221,12 +229,14 @@ public:
             }
 
             stringstream ss(line);
-            string name, description, exits, conditions;
+            string name, description, exits, conditions, characters_str, items_str;
 
             getline(ss, name, '|');
             getline(ss, description, '|');
             getline(ss, exits, '|');
             getline(ss, conditions, '|');
+            getline(ss, characters_str, '|');
+            getline(ss, items_str, '|');
 
             size_t pos;
             while ((pos = description.find("\\n")) != string::npos)
@@ -238,7 +248,6 @@ public:
             vector<string> directions;
             stringstream exitStream(exits);
             string exitToken;
-
             while (getline(exitStream, exitToken, ','))
             {
                 size_t delim = exitToken.find('=');
@@ -267,7 +276,36 @@ public:
                     }
                 }
             }
+
+            vector<string> character_list;
+            stringstream charStream(characters_str);
+            string char_name;
+            while (getline(charStream, char_name, ','))
+            {
+                if (!char_name.empty())
+                    character_list.push_back(char_name);
+            }
+
+            vector<string> item_list;
+            stringstream itemStream(items_str);
+            string item_name;
+            while (getline(itemStream, item_name, ','))
+            {
+                if (!item_name.empty())
+                    item_list.push_back(item_name);
+            }
+
             Location location(name, description, exitMap, conditionMap);
+
+
+            for (const string &item_name : item_list)
+            {
+                location.addItem(item_name);
+            }
+            for (const string &character_name : character_list)
+            {
+                location.addCharacter(character_name);
+            }
             locations[name] = location;
         }
         file.close();
@@ -290,7 +328,8 @@ public:
             << "ground and win the game. You can earn achievements as you play the "
             << "game by interacting with characters in Wonderland.\n\nPress enter to start the game.\n";
         getline(cin, enter);
-        cout << "\n******** Welcome to Alice's Adventures in Wonderland! ********\n" << endl;
+        cout << "\n******** Welcome to Alice's Adventures in Wonderland! ********\n"
+             << endl;
     }
 
     void play()
@@ -331,6 +370,10 @@ public:
             {
                 action->movePlayer(action_words[0]);
             }
+            else if (action_words[0] == "enter")
+            {
+                action->handleEnterDoorCommand(action_words);
+            }
             else
             {
                 action->doAction(action_words);
@@ -340,10 +383,10 @@ public:
 
     void endGame(string quit_word)
     {
-        // if the quit word is exit, then double check that the user wants to exit the game rather than an area within the game
+        // if the quit word is exit or q, then double check that the user wants to exit the game rather than an area within the game
         if (getIsRunning() && quit_word == "exit")
         {
-            cout << "You are about to quit the game. Enter 'yes' or 'quit' to "
+            cout << "You are about to quit the game. Enter 'yes', 'q', 'y' or 'quit' to "
                  << "confirm or anything else to continue playing.\n> ";
             string input;
             getline(cin, input);

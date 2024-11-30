@@ -21,24 +21,16 @@ private:
     string name;
     vector<string> item_actions;
     string description;
-    vector<string> actions;
 
 public:
     Item() : name("") {}
 
     Item(const string &name, const string &description, const vector<string> &actions)
-        : name(name), description(description), actions(actions) {}
+        : name(name), description(description), item_actions(actions) {}
 
-    // Currently all items can be added to inventory, but for scalability, if there's one that cannot
-    void addToInventoryItem()
-    {
-        item_actions.push_back("take");
-        item_actions.push_back("drop");
-    }
-
-    void addItemAction(string action) { item_actions.push_back(action); }
-    string getName() { return name; }
-    vector<string> getItemActions() { return item_actions; } // this function may be unnecessary review code and double check ** REMOVE ME BEFORE SUBMITTING UNLESS NECESSARY
+    string getName() const { return name; }
+    string getDescription() const { return description; }
+    vector<string> getActions() { return item_actions; }
     bool isItemAction(string action) { return find(item_actions.begin(), item_actions.end(), action) != item_actions.end(); }
 };
 

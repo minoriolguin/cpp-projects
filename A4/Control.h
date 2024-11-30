@@ -42,11 +42,10 @@ private:
         {"se", "southeast"},
         {"southwest", "southwest"},
         {"sw", "southwest"}};
-
     vector<string> movement_commands = {"north", "south", "east", "west", "northeast", "northwest", "southeast", "southwest"};
     vector<string> action_commands;
     vector<string> exit_commands = {"exit", "quit", "q"};
-    vector<string> confirm_commands = {"yes", "y"};
+    vector<string> confirm_commands = {"yes", "y", "q", "quit"};
 
     string trimWhitespace(string input)
     {
@@ -140,7 +139,7 @@ public:
 
         if (isExitCommand(words[0]))
         {
-            if (words[0] == "exit")
+            if (words[0] == "exit" || words[0] == "q")
             {
                 return {"exit"};
             }
@@ -152,14 +151,25 @@ public:
 
         for (string word : words)
         {
-            if (isMovementCommand(normalizeDirection(word))) 
+            if (isMovementCommand(normalizeDirection(word)))
             {
                 return {normalizeDirection(word)};
             }
-            else if(isActionCommand(word))
+            else if (isActionCommand(word))
             {
-                cout << "word: " << word << endl;
-                return words;
+                if (word == "enter")
+                {
+                    return words;
+                }
+                else if (word == "door")
+                {
+                    words.insert(words.begin(), "enter");
+                    return words;
+                }
+                else
+                {
+                    return words;
+                }
             }
         }
         return {"invalid"};
