@@ -1,0 +1,16 @@
+# characters.txt
+# Format: character_name|description|dialogues (comma-separated)|actions (comma-separated)| item
+
+Rabbit|a frantic white rabbit with pink eyes runs past, wearing a waistcoat and pocket watch.|“Oh dear! Oh dear! I shall be late!”,“Oh my ears and whiskers","How late it’s getting!”|talk to|
+
+Hatter|a hatter that may very well be mad.|"What day of the month is it?","Have you guessed the riddle yet?", "I dare say you never even spoke to Time!"|talk to|
+
+# Caterpillar|a blue caterpillar smoking a hookah.|"Who are you?",“Are you content now?”,“One side will make you grow taller and the other side will make you grow shorter. Of the mushroom.”|talk to|
+
+# Cheshire Cat|a mysterious cat who fades into the dark, leaving only a smile behind.|"We're all mad here.",“Do you play croquet with the Queen to-day?”,"Now I growl when I’m pleased and wag my tail when I’m angry. Therefore I’m mad."|talk to|
+
+Queen of Hearts|a short tempered queen appears, she looks directly at you.|"Off with their heads!","Either you or your head must be off and that in about half no time! Take your choice!"|talk to|
+
+March Hare|a nervous har drinking tea.|"Take some more tea.","It wasn’t very civil of you to sit down without being invited","I deny it!"|talk to|
+
+Gryphon|a dismissive being, with an impatient tone.|"You ought to be ashamed of yourself for asking such a simple question","Hold your tongue! You can follow me if you'd like.","No no! The adventures first explanations take such a dreadful time.","I have a gold key I betcha you'd like to take it."|follow,talk to|gold key

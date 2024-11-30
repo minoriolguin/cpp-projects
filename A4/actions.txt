@@ -1,0 +1,18 @@
+# Format: action_name|description|valid_targets (comma-separated)
+take|Pick up an item or object.|items
+pick|Pick flowers.|items
+# give|Release an item to a character.|items, characters
+drop|Release an item from your inventory.|items
+inspect|Inspect an item or location.|locations, items
+talk to|Speak with a character.|characters
+eat|Eat an item.|items
+drink|Drink an item.|items
+enter|Enter a door or opening.|exits
+door|Enter a door.|exits
+go|Move in a direction.|directions
+follow|Follow a character.|characters
+read|Read a few lines of a book.|items
+inventory|shows the player's inventory items.|items
+i|shows the player's inventory items.|items
+turn off|Turn on or off a light.|items
+turn on|Turn on or off a light.|items

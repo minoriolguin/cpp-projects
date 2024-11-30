@@ -1,0 +1,28 @@
+# Format: item_name|description|actions (comma-separated)
+# pocket-watch|A golden pocket watch ticking loudly.|inspect
+
+book|A book, with words and no pictures. You read the first line "Chapter 1. Down the Rabbit-Hole Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, “and what is the use of a book,” thought Alice “without pictures or conversations?”, weird, you think, my name is Alice too, you put the book down.|take,drop,inspect,read|
+
+daisies|A beautiful bouquet of daises.|pick,drop,inspect,take|
+
+bottle|A small bottle with a thick blue liquid labeled "unknown".|take,drop,drink,inspect
+
+lamp|A lamp with a large shade, dust covers the switch.|inspect,turn on,turn off
+
+mushroom|A strange mushroom with red and blue spots.|take,drop,eat,inspect
+
+hat|A tall, colourful hat.|take,drop,inspect,wear
+
+teacup|A delicate porcelain teacup with tea.|take,drop,inspect
+
+flamingo|A curious pink flamingo, used as a croquet mallet.|take,drop,inspect,use|
+
+hedgehog|A prickly hedgehog curled into a ball.|inspect
+
+cake|A small cake with "Eat Me" written in icing.|take,drop,eat,inspect|
+
+tart|A freshly baked tart sitting on a mismatched plate.|take,drop,eat,inspect
+
+# umbrella|A frilly umbrella, perfect for shade.|take,drop,inspect|
+
+gold key|A small golden key, slightly tarnished.|take,drop,inspect,use|
