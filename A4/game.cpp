@@ -164,11 +164,11 @@ public:
                 continue;
             }
 
-            stringstream iss(line);
+            stringstream ss(line);
             string action_name, description, targets;
-            getline(iss, action_name, '|');
-            getline(iss, description, '|');
-            getline(iss, targets, '|');
+            getline(ss, action_name, '|');
+            getline(ss, description, '|');
+            getline(ss, targets, '|');
 
             parsed_actions.push_back(action_name);
             vector<string> targetList;
@@ -287,14 +287,15 @@ public:
         string enter;
         cout
             << "******** Welcome to Alice's Adventures in Wonderland! ********\n"
-            << "\nInstructions: This game expects input in 1-2 word combinations, you can enter "
+            << "\nInstructions: This game expects input in 1-3 word combinations, you can enter "
             << "north, or n for north, this also applies to, east, south and west. "
             << "For northeast, you can enter northeast or ne. Capital and lowercase"
             << "letters are read as the same thing. Additional commands include, inventory, "
-            << "take, drop, drink, eat, and talk to. To end the game at any point "
-            << "type 'exit', 'quit' or 'q'. Once the game begins, you will receive a short"
-            << "description on where you are.\n\nGoal: explore Wonderland as Alice to reach the finish line."
-            << " First enter Wonderland to meet character and find the golden key."
+            << "take, drop, eat, wear, follow, use and talk to. To end the game at any point "
+            << "type 'exit', 'quit' or 'q'. Enter 'help' or 'h' at any point you find yourself "
+            << "stuck in the game for a list of directions. Once the game begins, you will receive a short"
+            << "description on where you are.\n\nGoal: Your goal is to explore Wonderland as Alice to reach the finish line. "
+            << "First enter Wonderland to meet character and find the golden key."
             << "The golden key is hidden somewhere in Wonderland and you need it to get back to above "
             << "ground and win the game. You can earn achievements as you play the "
             << "game by interacting with characters in Wonderland.\n\nPress enter to start the game.\n";

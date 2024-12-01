@@ -228,7 +228,7 @@ public:
                     }
                     return {"talk to", normalizeCharacterName(input)};
                 }
-                else if (word == "follow")
+                else if (word == "follow" || word == "wear")
                 {
                     string input;
                     for (int i = 1; i < words.size(); i++)
@@ -240,6 +240,19 @@ public:
                         input += words[i];
                     }
                     return {"follow", normalizeCharacterName(input)};
+                }
+                else if (word == "take" && words[1] == "off")
+                {
+                    string input;
+                    for (int i = 2; i < words.size(); i++)
+                    {
+                        if (!input.empty())
+                        {
+                            input += " ";
+                        }
+                        input += words[i];
+                    }
+                    return {"take off", normalizeCharacterName(input)};
                 }
                 else
                 {

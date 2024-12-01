@@ -44,7 +44,7 @@ private:
 
 public:
     Action(map<string, Location> *locations, const string &start_location_name, map<string, Character> *characters, map<string, Item> *items, Inventory &inventory)
-        : lampIsOn(false), all_locations(locations), all_characters(characters), all_items(items), playerInventory(inventory)
+        : lampIsOn(false), hatIsOn(false), all_locations(locations), all_characters(characters), all_items(items), playerInventory(inventory)
     {
         if (all_locations->find(start_location_name) != all_locations->end())
         {
@@ -57,11 +57,11 @@ public:
         }
     }
 
-    Location *getCurrentLocation() { return current_location; }
-    bool getLocationChanged() { return location_changed; }
-    bool getLampOn() { return lampIsOn; }
-    bool getWin() { return win; }
-    void playerWins() { win = true; }
+    Location *getCurrentLocation() const { return current_location; }
+    bool getLocationChanged() const { return location_changed; }
+    bool getLampOn() const { return lampIsOn; }
+    bool getWin() const { return win; }
+    void playerWins() const { win = true; }
 
     void setDoor1Lock(bool is_locked)
     {
@@ -93,7 +93,7 @@ public:
         }
     }
 
-    void displayHelp()
+    void displayHelp() const
     {
         cout << "Help: try going in one of the following directions\n";
         for (auto &exit : current_location->getExitList())
@@ -149,7 +149,7 @@ public:
         }
     }
 
-    bool isDoorLocked(string door)
+    bool isDoorLocked(const string &door)
     {
         if (door == "door_1")
         {
@@ -201,6 +201,10 @@ public:
                 target_door += " " + command_words[i];
             }
         }
+        if (current_location == &all_locations->find("Return to Above Ground")->second)
+        {
+            target_door = "door_1";
+        }
         else
         {
             target_door = "door";
@@ -220,13 +224,13 @@ public:
         }
     }
 
-    bool isItem(string item_name)
+    bool isItem(const string &item_name)
     {
         auto it = all_items->find(item_name);
         return (it != all_items->end());
     }
 
-    Item findItemByName(string item_name)
+    Item findItemByName(const string &item_name)
     {
         auto it = all_items->find(item_name);
         if (it != all_items->end())
@@ -239,7 +243,7 @@ public:
         }
     }
 
-    void takeItem(Item item)
+    void takeItem(const Item &item)
     {
         if (current_location->hasItem(item.getName()))
         {
@@ -260,7 +264,7 @@ public:
         }
     }
 
-    void dropItem(string item_name)
+    void dropItem(const string &item_name)
     {
         if (playerInventory.hasItem(item_name))
         {
@@ -298,7 +302,7 @@ public:
         }
     }
 
-    void useFlamingo(string item_name)
+    void useFlamingo(const string &item_name)
     {
         if (playerInventory.hasItem(item_name) || current_location->hasItem(item_name))
         {
@@ -317,7 +321,7 @@ public:
         }
     }
 
-    void wearHat(string item_name)
+    void wearHat(const string &item_name)
     {
         if (playerInventory.hasItem(item_name) && findItemByName(item_name).isWearable())
         {
@@ -337,7 +341,7 @@ public:
         }
     }
 
-    void takeOffHat(string item_name)
+    void takeOffHat(const string &item_name)
     {
         if (hatIsOn && !playerInventory.isFull())
         {
@@ -481,13 +485,25 @@ public:
                 }
             }
         }
-        else if (action_words[0] == "use" || action_words[0] == "wear" || (action_words[0] == "take" && action_words[1] == "off"))
+        else if (action_words[0] == "inventory" || action_words[0] == "i")
         {
-            if (action_words[1] == "gold" && action_words[2] == "key")
+            playerInventory.displayInventory();
+        }
+        else if (action_words[0] == "help" || action_words[0] == "h")
+        {
+            displayHelp();
+        }
+        else if (action_words.size() == 1)
+        {
+            cout << "You need to enter an item after " << action_words[0] << " to " << action_words[0] << " it." << endl;
+        }
+        else if (action_words[0] == "use" || action_words[0] == "wear" || (action_words[0] == "take off"))
+        {
+            if (action_words[1] == "flamingo")
             {
-                useKey("gold key");
+                useFlamingo(action_words[1]);
             }
-            else if (action_words[1] == "hat" || action_words[2] == "hat")
+            else if (action_words[1] == "hat")
             {
                 if (hatIsOn)
                 {
@@ -498,9 +514,9 @@ public:
                     wearHat(action_words[1]);
                 }
             }
-            else if (action_words[1] == "flamingo")
+            else if (action_words[1] == "gold" && action_words[2] == "key")
             {
-                useFlamingo(action_words[1]);
+                useKey("gold key");
             }
         }
         else if (action_words[0] == "eat")
@@ -522,21 +538,10 @@ public:
         {
             dropItem(action_words[1]);
         }
-        else if (action_words[0] == "inventory" || action_words[0] == "i")
-        {
-            playerInventory.displayInventory();
-        }
-        else if (action_words[0] == "help" || action_words[0] == "h")
-        {
-            displayHelp();
-        }
+
         else if (action_words[0] == "follow")
         {
             followCharacter(action_words[0], action_words[1]);
-        }
-        else if (action_words.size() == 1)
-        {
-            cout << "You need to enter an item after " << action_words[0] << " to " << action_words[0] << " it." << endl;
         }
         else if (!current_location->hasItem(action_words[1]) && action_words.size() == 2)
         {
