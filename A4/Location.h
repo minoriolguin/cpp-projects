@@ -8,6 +8,34 @@ Author: Minori Olguin
 Student ID: 3441333
 */
 
+/*
+DOCUMENTATION
+
+Program Purpose:
+    This class represents a location in the game world. Locations have a name, 
+    description, exits, conditions, items, and characters. This class provides 
+    methods to manage and retrieve location details, such as available exits, 
+    items, and characters. It is a fundamental component for handling player 
+    movement and interactions within the game.
+
+Date: November 10, 2024
+
+Compile (assuming Cygwin is running): g++ -std=c++11 -o Game Game.cpp
+Execution (assuming Cygwin is running): ./Game.exe
+
+Notes: In Cygwin, main must return type int
+
+Classes: Location
+
+Variables:
+    name - string - The name of the location
+    description - string - The description of the location
+    exits - map<string, string> - Maps directions to destination locations
+    conditions - map<string, string> - Maps conditions for exits or events
+    items_in_location - vector<string> - List of item names present in the location
+    characters_in_location - vector<string> - List of character names present in the location
+*/
+
 #ifndef LOCATION_H
 #define LOCATION_H
 

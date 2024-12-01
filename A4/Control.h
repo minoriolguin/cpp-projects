@@ -8,6 +8,34 @@ Author: Minori Olguin
 Student ID: 3441333
 */
 
+/*
+DOCUMENTATION
+
+Program Purpose:
+    The Control class is responsible for processing and validating user inputs. 
+    It normalizes inputs to ensure consistency and maps commands to their respective 
+    actions. This class simplifies user interactions by managing input parsing, 
+    validation, and command mapping.
+
+Date: November 10, 2024
+
+Compile (assuming Cygwin is running): g++ -std=c++11 -o Game Game.cpp
+Execution (assuming Cygwin is running): ./Game.exe
+
+Notes: In Cygwin, main must return type int
+
+Classes: Control
+
+Variables:
+    direction_map - map<string, string> - Maps direction inputs to normalized forms
+    character_map - map<string, string> - Maps character aliases to their normalized names
+    movement_commands - vector<string> - List of valid movement commands
+    action_commands - vector<string> - List of valid action commands
+    exit_commands - vector<string> - List of commands to exit or quit the game
+    confirm_commands - vector<string> - List of commands to confirm actions
+    partial_commands - vector<string> - List of incomplete or partial commands
+*/
+
 #ifndef CONTROL_H
 #define CONTROL_H
 
@@ -24,6 +52,8 @@ using namespace std;
 class Control
 {
 private:
+    // private variables 
+    // Character and direction maps 
     map<string, string> direction_map = {
         {"north", "north"},
         {"n", "north"},
@@ -68,12 +98,14 @@ private:
         {"queen", "Queen of Hearts"},
         {"the queen", "Queen of Hearts"},
         {"the queen of hearts", "Queen of Hearts"}};
+    // validation vectors for movements, actions, exits, confirmations, and partial commands
     vector<string> movement_commands = {"north", "south", "east", "west", "northeast", "northwest", "southeast", "southwest"};
     vector<string> action_commands;
     vector<string> exit_commands = {"exit", "quit", "q"};
     vector<string> confirm_commands = {"yes", "y", "q", "quit"};
     vector<string> partial_commands = {"turn", "talk"};
 
+    // private methods that validate inputs 
     string trimWhitespace(string input)
     {
         int start = 0;
@@ -118,13 +150,16 @@ private:
     }
 
 public:
+    // Default constructor
     Control() {}
 
+    // setter for action commands vector
     void setActionCommands(vector<string> commands)
     {
         action_commands = commands;
     }
 
+    // normalize direction using validation map
     string normalizeDirection(const string &input)
     {
         if (direction_map.find(input) != direction_map.end())
@@ -133,7 +168,7 @@ public:
         }
         return "";
     }
-
+    // normalize character name using validation map
     string normalizeCharacterName(const string &input)
     {
         if (character_map.find(input) != character_map.end())
@@ -143,6 +178,8 @@ public:
         return "";
     }
 
+    // bools that validate whether the input is a valid command
+    // uses validation vectors
     bool isExitCommand(const string &input)
     {
         return find(exit_commands.begin(), exit_commands.end(), input) != exit_commands.end();
@@ -168,6 +205,7 @@ public:
         return find(confirm_commands.begin(), confirm_commands.end(), input) != confirm_commands.end();
     }
 
+    // vaidates and parses the input, this is the method called in Game.cpp
     vector<string> validateAndParseInput(const string &input)
     {
         vector<string> words = validateInput(input);
@@ -190,6 +228,7 @@ public:
             }
         }
 
+        // handles special cases and validates the input 
         for (string word : words)
         {
             if (isMovementCommand(normalizeDirection(word)))
