@@ -4,12 +4,10 @@
 # Format: action_name|description|valid_targets (comma-separated)
 take|Pick up an item or object.|items
 pick|Pick flowers.|items
-# give|Release an item to a character.|items, characters
 drop|Release an item from your inventory.|items
 inspect|Inspect an item or location.|locations, items
 talk to|Speak with a character.|characters
 eat|Eat an item.|items
-drink|Drink an item.|items
 enter|Enter a door or opening.|exits
 door|Enter a door.|exits
 go|Move in a direction.|directions
@@ -22,3 +20,5 @@ turn on|Turn on or off a light.|items
 use|Use an item.|items
 help|Shows help menu.|none
 h|Shows help menu.|none
+take off|remove item.|items
+wear|put on.|items
