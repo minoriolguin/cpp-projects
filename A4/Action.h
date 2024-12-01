@@ -102,7 +102,7 @@ public:
         }
     }
 
-    void movePlayer(const string &direction)
+    void movePlayer(string direction)
     {
         if (current_location->hasExit(direction))
         {
@@ -149,7 +149,7 @@ public:
         }
     }
 
-    bool isDoorLocked(const string &door)
+    bool isDoorLocked(string door)
     {
         if (door == "door_1")
         {
@@ -183,7 +183,7 @@ public:
         }
     }
 
-    void handleEnterDoorCommand(const vector<string> &command_words)
+    void handleEnterDoorCommand(vector<string> command_words)
     {
         string target_door;
 
@@ -201,7 +201,7 @@ public:
                 target_door += " " + command_words[i];
             }
         }
-        if (current_location == &all_locations->find("Return to Above Ground")->second)
+        else if (current_location == &all_locations->find("Return to Above Ground")->second)
         {
             target_door = "door_1";
         }
@@ -224,13 +224,13 @@ public:
         }
     }
 
-    bool isItem(const string &item_name)
+    bool isItem(string item_name)
     {
         auto it = all_items->find(item_name);
         return (it != all_items->end());
     }
 
-    Item findItemByName(const string &item_name)
+    Item findItemByName(string item_name)
     {
         auto it = all_items->find(item_name);
         if (it != all_items->end())
@@ -243,7 +243,7 @@ public:
         }
     }
 
-    void takeItem(const Item &item)
+    void takeItem(Item item)
     {
         if (current_location->hasItem(item.getName()))
         {
@@ -264,7 +264,7 @@ public:
         }
     }
 
-    void dropItem(const string &item_name)
+    void dropItem(string item_name)
     {
         if (playerInventory.hasItem(item_name))
         {
@@ -302,7 +302,7 @@ public:
         }
     }
 
-    void useFlamingo(const string &item_name)
+    void useFlamingo(string item_name)
     {
         if (playerInventory.hasItem(item_name) || current_location->hasItem(item_name))
         {
@@ -321,7 +321,7 @@ public:
         }
     }
 
-    void wearHat(const string &item_name)
+    void wearHat(string item_name)
     {
         if (playerInventory.hasItem(item_name) && findItemByName(item_name).isWearable())
         {
@@ -341,7 +341,7 @@ public:
         }
     }
 
-    void takeOffHat(const string &item_name)
+    void takeOffHat(string item_name)
     {
         if (hatIsOn && !playerInventory.isFull())
         {
@@ -438,6 +438,7 @@ public:
             if (current_location->hasCharacter(character_name) && character.hasAction(direction))
             {
                 cout << "You started following " << character_name << "... This seems to be a short-cut... " << endl;
+
                 movePlayer(direction);
             }
             else if (!current_location->hasCharacter(character_name))
