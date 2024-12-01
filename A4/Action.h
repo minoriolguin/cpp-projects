@@ -61,7 +61,7 @@ public:
     bool getLocationChanged() const { return location_changed; }
     bool getLampOn() const { return lampIsOn; }
     bool getWin() const { return win; }
-    void playerWins() const { win = true; }
+    void playerWins() { win = true; }
 
     void setDoor1Lock(bool is_locked)
     {
