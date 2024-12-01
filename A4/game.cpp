@@ -1,14 +1,56 @@
-//: game.cpp
+//: Game.cpp
 
 /*
-Title: game.cpp
+Title: Game.cpp
 Description:
-Date: November 10, 2024
+    This program simulates an interactive text-based game,
+    "Alice's Adventures in Wonderland." Players take on the role of Alice
+    and navigate through different locations in Wonderland, interact with
+    characters, pick up items, and solve puzzles to achieve the goal of
+    escaping Wonderland.
 Author: Minori Olguin
 Student ID: 3441333
 */
 
-#include <iostream>
+/*
+DOCUMENTATION
+
+Program Purpose:
+    This is a C++ implementation that demonstrates object-oriented programming
+    concepts, file I/O, and command-based gameplay mechanics.
+Date: November 10, 2024
+
+
+Compile (assuming Cygwin is running): g++ -std=c++11 -o Game Game.cpp
+Execution (assuming Cygwin is running): ./Game.exe
+
+Notes: in Cygwin, main must return type int
+
+Classes: Game, Control, Action, Location, Character, Item, Inventory
+
+Variables:
+    bool is_running: Tracks whether the game is active.
+    bool location_changed: Tracks if the player's location has changed.
+    string win_message: Message displayed when the player wins the game.
+    string starting_location: The initial location of the player (Riverbank).
+    int steps_to_complete: Number of steps the player took to complete the game.
+    map<string, Location> locations: Stores all game locations.
+    map<string, Character> characters: Stores all game characters.
+    map<string, Item> items: Stores all game items.
+    Control control: Handles input parsing and normalization.
+    Action *action: Handles player actions (e.g., moving, interacting).
+    Location *current_location: Pointer to the current location of the player.
+    Inventory inventory: Manages the player's collected items.
+*/
+
+/*
+TEST PLAN
+
+
+Discussion: Program limitations discussed at length in assignment journal.
+*/
+
+#include <iostream> // stream declarations
 #include <sstream>
 #include <fstream>
 #include <map>
@@ -22,6 +64,9 @@ Student ID: 3441333
 #include "Inventory.h"
 using namespace std;
 
+/*****************************************************************************
+ * Location 
+*****************************************************************************/
 class Game
 {
 private:
@@ -268,7 +313,6 @@ public:
 
             Location location(name, description, exitMap, conditionMap);
 
-
             for (const string &item_name : item_list)
             {
                 location.addItem(item_name);
@@ -317,14 +361,15 @@ public:
         do
         {
             steps_to_complete++;
-            cout << "\nCurrent Step: " << steps_to_complete  << "\n" << endl;
+            cout << "\nCurrent Step: " << steps_to_complete << "\n"
+                 << endl;
 
             string input;
             cout << "> ";
             getline(cin, input);
 
             vector<string> action_words = control.validateAndParseInput(input);
-            cout<<endl;
+            cout << endl;
             if (action_words.empty())
             {
                 continue;
@@ -353,10 +398,11 @@ public:
             {
                 action->doAction(action_words);
             }
-            if (action->getWin()) 
+            if (action->getWin())
             {
                 cout << "Steps to Complete Game: " << steps_to_complete << endl;
-                cout << win_message << "\n" << endl;
+                cout << win_message << "\n"
+                     << endl;
                 endGame("quit");
             }
         } while (getIsRunning());
@@ -391,6 +437,9 @@ public:
     }
 };
 
+/*****************************************************************************
+ * Main 
+*****************************************************************************/
 int main()
 {
     Game wonderland;

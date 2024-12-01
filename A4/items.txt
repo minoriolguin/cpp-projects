@@ -1,11 +1,11 @@
 # Author: Minori Olguin
 # Student ID: 3441333
 # Title: items.txt
-# Format: item_name|description|actions (comma-separated)
+# Format: item_name|description|actions (comma-separated)|achievement (optional)
 
-book|A book, with words and no pictures. You read the first line "Chapter 1. Down the Rabbit-Hole Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, “and what is the use of a book,” thought Alice “without pictures or conversations?”, weird, you think, my name is Alice too, you put the book down.|take,drop,inspect,read|
+book|A book, with words and no pictures. You read the first line "Chapter 1. Down the Rabbit-Hole Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, “and what is the use of a book,” thought Alice “without pictures or conversations?”, weird, you think, my name is Alice too, you put the book down.|take,drop,inspect,read|Read the picture-less book!
 
-daisies|A beautiful bouquet of daises.|pick,drop,inspect,take|
+daisies|A beautiful bouquet of daises.|pick,drop,inspect,take|Made a lovely bouquet of daisies.
 
 bottle|A small bottle with a thick blue liquid labeled "unknown".|take,drop,drink,inspect|
 
@@ -13,16 +13,16 @@ lamp|A lamp with a large shade, dust covers the switch.|inspect,turn on,turn off
 
 mushroom|A strange mushroom with red and blue spots.|take,drop,eat,inspect|
 
-hat|A tall, colourful hat.|take,drop,inspect,wear|
+hat|A tall, colourful hat.|take,drop,inspect,wear|Looking stylish in Wonderland!
 
 teacup|A delicate porcelain teacup with tea.|take,drop,inspect|
 
-flamingo|A curious pink flamingo, used as a croquet mallet.|take,drop,inspect,use|
+flamingo|A curious pink flamingo, used as a croquet mallet.|take,drop,inspect,use|Played croquet with the Red Queen!
 
 hedgehog|A prickly hedgehog curled into a ball.|inspect|
 
-cake|A small cake with "Eat Me" written in icing.|take,drop,eat,inspect|
+cake|A small cake with "Eat Me" written in icing.|take,drop,eat,inspect|Ate!
 
-tart|A freshly baked tart sitting on a mismatched plate.|take,drop,eat,inspect|
+tart|A freshly baked tart sitting on a mismatched plate.|take,drop,eat,inspect|Ate x2!
 
-gold key|A small golden key, slightly tarnished.|take,drop,inspect,use|
+gold key|A small golden key, slightly tarnished.|take,drop,inspect,use|Found the gold key!
