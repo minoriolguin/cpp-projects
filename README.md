@@ -1,4 +1,4 @@
-# C++ for Programmers Coursework Repository
+# C++ for Programmers Coursework
 
 Welcome to my **C++ for Programmers** coursework repository! This repository contains assignments I have completed as part of my coursework. It showcases my progress and understanding of C++ programming concepts.
 
@@ -10,7 +10,7 @@ Welcome to my **C++ for Programmers** coursework repository! This repository con
   - **Bookshelf and Book Classes**: Demonstrates class composition and template usage.
   - **Set Template Class**: Implements a set with unique elements and nested iterator support.
 - Final project A4
-  - **Alices Adventures in Wonderland Game**: A CL text-based game that demonstrates OOP principles.
+  - **Alices Adventures in Wonderland Game**: A CLI text-based game that demonstrates OOP principles.
 
 ## Learning Outcomes
 
