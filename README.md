@@ -21,10 +21,10 @@ Throughout this coursework, I have developed skills in:
 - File handling and error checking.
 - Debugging and adhering to best coding practices.
 
-## Running the Game
+## Running the Game - Alice's Adventures in Wonderland
 
 ```bash
-g++ -o game main.cpp
+g++ -o game Game.cpp
 ```
 
 
